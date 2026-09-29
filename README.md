@@ -134,6 +134,10 @@ Filestash currently builds with Go 1.26, so CI follows Go 1.26 as well.
 
 ## License
 
-GNU Affero General Public License v3.0 or later (`AGPL-3.0-or-later`).
+The original code in this repository is licensed under the MIT License (`MIT`).
+Filestash CE is licensed separately under AGPL-3.0. When this plugin is compiled
+into a Filestash binary, distribution and network use of that combined program
+must comply with Filestash's AGPL terms. This repository does not relicense
+Filestash or any third-party dependency.
 
 Filestash is a separate project and has its own license and trademarks.
