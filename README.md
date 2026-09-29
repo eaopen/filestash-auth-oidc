@@ -1,5 +1,7 @@
 # Filestash Auth OIDC
 
+[![Go checks](https://github.com/eaopen/filestash-auth-oidc/actions/workflows/test.yml/badge.svg)](https://github.com/eaopen/filestash-auth-oidc/actions/workflows/test.yml)
+
 Community OpenID Connect authentication middleware for [Filestash CE](https://github.com/mickael-kerjean/filestash).
 
 The plugin is designed for self-hosted Filestash deployments that need standards-based OIDC authentication without modifying Filestash core. Authentik is the primary tested identity provider, while the implementation intentionally stays provider-neutral.
@@ -74,6 +76,10 @@ server/plugin/index.go
 ```
 
 Then rebuild Filestash normally.
+
+Filestash's source build generates `server/pkg/env/constants_generated.go` before
+compilation. Run `go generate ./server/pkg/env` in the Filestash checkout (or use
+its normal build command) before building the combined binary.
 
 The plugin registers itself as:
 

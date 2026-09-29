@@ -1,3 +1,6 @@
 .DS_Store
 coverage.out
 *.test
+go.work
+go.work.sum
+/filestash/

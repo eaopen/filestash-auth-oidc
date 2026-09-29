@@ -12,10 +12,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: mickael-kerjean/filestash
+          ref: 2ea4bae7f66b46ea51c7e81506afc7c6e0b75364
+          path: filestash
       - uses: actions/setup-go@v6
         with:
           go-version: '1.26.x'
           cache: true
       - run: go mod download
+      - run: go work init . ./filestash
+      - run: cd filestash && go generate ./server/pkg/env
       - run: go test ./...
       - run: go vet ./...
