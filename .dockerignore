@@ -1,0 +1,7 @@
+.git
+.github
+filestash
+go.work
+go.work.sum
+*.test
+coverage.out

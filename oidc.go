@@ -33,6 +33,7 @@ var (
 
 func init() {
 	common.Hooks.Register.AuthenticationMiddleware(pluginID, Plugin{})
+	common.Hooks.Register.Middleware(enforceOIDCSessionAge)
 }
 
 // Plugin implements Filestash's IAuthentication middleware using standard

@@ -25,7 +25,11 @@ Name: Filestash
 Slug: filestash
 ```
 
-Use Authentik policies/groups for coarse application admission such as a `filestash-users` group.
+Bind a dedicated group such as `reference-project` to the Filestash application.
+With a single read-only reference library, this makes group membership the
+application admission boundary. Users outside the group must not receive an
+authorization code. Each additional library needs its own verified storage
+and authorization boundary; a shared SFTP credential does not preserve user ACLs.
 
 Do not mirror every storage ACL into Authentik groups. Storage ACLs should remain owned by the storage system or Filestash authorization layer.
 
@@ -95,3 +99,10 @@ Common fields:
 Version 0.1 handles Filestash session logout only. It does not initiate Authentik RP-initiated logout / end-session flow.
 
 That is intentional: logout federation should be added separately once the desired organization-wide SSO logout behavior is clear.
+
+Filestash's encrypted session token normally remains valid after an Authentik
+group change. While `oidc` is selected, this plugin rejects sessions older than
+15 minutes and blocks direct storage login through `POST /api/session`. Set
+Filestash's cookie timeout to 15 minutes or less, and disable share links for a
+read-only reference profile. Group removal can take up to 15 minutes to affect
+an existing Filestash session; logout alone does not revoke a copied token.

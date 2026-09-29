@@ -81,6 +81,15 @@ Filestash's source build generates `server/pkg/env/constants_generated.go` befor
 compilation. Run `go generate ./server/pkg/env` in the Filestash checkout (or use
 its normal build command) before building the combined binary.
 
+For a local container build, the included Dockerfile fetches the pinned
+Filestash source and compiles this plugin into the server:
+
+```bash
+docker build -t filestash-auth-oidc:local .
+```
+
+The image is for development and must be pinned by digest before production use.
+
 The plugin registers itself as:
 
 ```text
@@ -123,6 +132,10 @@ Example attribute mapping can use values such as:
 - UserInfo, when enabled, must return the same `sub` as the ID token.
 - Access tokens, refresh tokens, and ID tokens are not exposed to Filestash attribute mapping.
 - Redirect URIs must be HTTPS except for localhost development.
+- Direct `POST /api/session` storage login is blocked while OIDC is selected.
+- Existing Filestash sessions expire after at most 15 minutes, including bearer
+  tokens, so IdP group removal takes effect no later than the next login after
+  that window. Disable share links in a read-only reference profile.
 
 ### Multi-instance note
 
