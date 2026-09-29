@@ -5,12 +5,46 @@ package oidcauth
 
 import (
 	"net/http"
+	"strings"
 	"time"
 
+	"github.com/gorilla/mux"
 	common "github.com/mickael-kerjean/filestash/server/common"
+	"github.com/mickael-kerjean/filestash/server/pkg/session"
+	"github.com/mickael-kerjean/filestash/server/pkg/token"
 )
 
 const maxOIDCSessionAge = 15 * time.Minute
+
+// Filestash plugin routes can omit PluginInjector, so enforce token age on the
+// parent router before any core or plugin route handles the request.
+func registerOIDCSessionGuard(router *mux.Router) error {
+	router.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
+			if common.Config.Get("middleware.identity_provider.type").String() != pluginID ||
+				req.URL.Path == common.WithBase("/api/session/auth/") {
+				next.ServeHTTP(res, req)
+				return
+			}
+
+			authorization := token.From(req)
+			// WOPI converts access_token to authorization only inside its route.
+			if authorization == "" && strings.HasPrefix(req.URL.Path, common.WithBase("/api/wopi/files/")) {
+				authorization = req.URL.Query().Get("access_token")
+			}
+			if authorization != "" {
+				app := &common.App{Authorization: authorization}
+				userSession, err := session.FromRequest(req, app)
+				if err != nil || !oidcSessionCurrent(userSession["timestamp"], time.Now()) {
+					common.SendErrorResult(res, common.ErrNotAuthorized)
+					return
+				}
+			}
+			next.ServeHTTP(res, req)
+		})
+	})
+	return nil
+}
 
 // enforceOIDCSessionAge bounds the lifetime of Filestash's encrypted, otherwise
 // long-lived session token. The IdP admission policy is rechecked on the next

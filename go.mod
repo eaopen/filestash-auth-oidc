@@ -4,6 +4,7 @@ go 1.26
 
 require (
 	github.com/coreos/go-oidc/v3 v3.21.0
+	github.com/gorilla/mux v1.8.1
 	github.com/mickael-kerjean/filestash v0.0.0-20260929094554-2ea4bae7f66b
 	golang.org/x/oauth2 v0.36.0
 )
@@ -16,7 +17,6 @@ require (
 	github.com/go-jose/go-jose/v4 v4.1.4 // indirect
 	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/mattn/go-isatty v0.0.21 // indirect
 	github.com/mattn/go-sqlite3 v1.14.42 // indirect
 	github.com/mickael-kerjean/net v0.0.0-20191120063050-2457c043ba06 // indirect
