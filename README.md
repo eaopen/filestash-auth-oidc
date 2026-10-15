@@ -1,6 +1,6 @@
-[CloudFile product home / 产品总入口](https://github.com/eaopen/cloudfile) · [English](https://github.com/eaopen/cloudfile/blob/main/README.md) · [简体中文](https://github.com/eaopen/cloudfile/blob/main/README.zh-CN.md)
-
 # Filestash Auth OIDC
+
+[English](README.md) | [简体中文](README.zh-CN.md)
 
 [![Go checks](https://github.com/eaopen/filestash-auth-oidc/actions/workflows/test.yml/badge.svg)](https://github.com/eaopen/filestash-auth-oidc/actions/workflows/test.yml)
 
